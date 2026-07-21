@@ -111,6 +111,14 @@ modprobe overlay
 modprobe br_netfilter
 ```
 
+Persisting changes for a next reboot:
+```
+bash -c 'cat <<EOF > /etc/modules-load.d/k8s.conf
+overlay
+br_netfilter
+EOF'
+```
+
 8. **Set required sysctl parameters:**
 ```
 cat <<EOF | tee /etc/sysctl.d/k8s.conf
