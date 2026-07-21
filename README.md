@@ -14,15 +14,52 @@ The idea of this environment is to have a local sandbox for preparing for Kubern
 ### Environment Setup
 
 1. **Install Multipass:**
-   - `brew install multipass` command-line tool
-   - Minikube
 
-2. **Setup Steps:**
-   ```bash
-   # Start Minikube with Docker driver
-   cd setup
-   ./reset_lab_environment.sh  # This will initialize Minikube with Docker driver
+We can install it on Linux, Windows and MacOS.
+
+| OS | Reference |
+| ------ | ------ |
+| Windows | https://multipass.run/docs/installing-on-windows |
+| MacOS | https://multipass.run/docs/installing-on-macos |
+| Linux | https://multipass.run/docs/installing-on-linux |
+
+We will use Homebrew for MacOS:
+
+   - `brew install multipass`
+   - `multipass version` for verifying install and version
+  ```bash
+        $ multipass version
+
+        multipass   1.16.1+mac
+        multipassd  1.16.1+mac
    ```
+
+2. **Creating Linux virtual machines for master and worker nodes**
+
+    > You should consider:
+    > - 1 master node and 1 worker node for starting (then you can add extra ones as needed)
+    > - 2 GiB or more of RAM per machine--any less leaves little room for your apps.
+    > - At least 2 CPUs on the machine that you use as a control-plane node.
+
+    Launching master node:
+    ```bash
+    multipass launch --name master-1 --memory 2G --cpus 2 --disk 10G
+    ```
+
+    Launching worker node:
+    ```bash
+    multipass launch --name worker-1 --memory 2G --cpus 2 --disk 10G
+    ```
+
+    Verify nodes:
+    ```bash
+    multipass ls
+    ```
+    ```bash
+    Name                    State             IPv4             Image
+    master-1                Running           192.168.2.2      Ubuntu 24.04 LTS
+    worker-1                Running           192.168.2.3      Ubuntu 24.04 LTS
+    ```
 
 ### Setting Up Lab Environments
 
