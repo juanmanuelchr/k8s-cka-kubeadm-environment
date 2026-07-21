@@ -253,6 +253,10 @@ worker-1   Ready    <none>          45s   v1.35.6
 kubectl label node worker-1 node-role.kubernetes.io/worker=worker
 ```
 
+```
+node/worker-1 labeled
+```
+
 21. **Create a test deployment using nginx latest image with four (4) replicas:**
 ```
 kubectl create deploy test-deploy --image=nginx --replicas=4
@@ -261,6 +265,7 @@ kubectl create deploy test-deploy --image=nginx --replicas=4
 deployment.apps/test-deploy created
 ```
 
+Verifying pods:
 ```
 root@master-1:~# kubectl get pods
 NAME                           READY   STATUS    RESTARTS   AGE
@@ -272,11 +277,22 @@ test-deploy-84d9966d59-whw48   1/1     Running   0          9s
 
 
 Testing one of the pods by its local pod IP:
+
+Getting the local IP first:
 ```
 root@master-1:~# kubectl get pod test-deploy-84d9966d59-7vxv4  -o wide
+```
+```
 NAME                           READY   STATUS    RESTARTS   AGE     IP           NODE       NOMINATED NODE   READINESS GATES
 test-deploy-84d9966d59-7vxv4   1/1     Running   0          4m38s   10.244.1.2   worker-1   <none>           <none>
+```
+
+Then, performing a curl from the master node:
+```
 root@master-1:~# curl 10.244.1.2
+```
+
+```
 <!DOCTYPE html>
 <html>
 <head>
